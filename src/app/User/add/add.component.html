@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-3 text-left">
+          <button (click)=onBack() class="btn btn-primary">BACK</button>
+        </div>
+        <div class="col-6 text-center">
+          <h4>ADD USER</h4>
+        </div>
+        <div class="col-3 text-right">
+          <button [disabled]='userForm.invalid' (click)=onSave() class="btn btn-primary">SAVE</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="userForm"> <!-- This links the form to the defined userForm-->
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label> Name * </label>
+              <input [class.is-invalid]='name.touched && name.invalid' type="text" class="form-control" formControlName="name" />
+              <div *ngIf="name.touched && name.invalid">
+                <small *ngIf="name.errors?.required" class='text-danger'> Name is required</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label> Age </label>
+              <input type="text" class="form-control" formControlName="age" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label> Mobile Number * </label>
+              <input [class.is-invalid]='mobile.touched && mobile.invalid' type="text" class="form-control" formControlName="mobile"/>
+              <div *ngIf="mobile.touched && mobile.invalid">
+                <small *ngIf="mobile.errors?.required" class='text-danger'> Mobile Number is required</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label> Gender </label>
+              <div class="row">
+                <div class="col-6">
+                  <div class='form-check from-check-inline'>
+                    <input type="radio" class="form-check-input" formControlName="gender" value='Male' id='Male'/>
+                      <label class='from-check-label' for='Male'>
+                        Male
+                      </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class='form-check from-check-inline'>
+                    <input type="radio" class="form-check-input" formControlName="gender" value='Female' id='Female'/>
+                    <label class='from-check-label' for='Female'>
+                      Female
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="gender.invalid && (gender.dirty || gender.touched)">
+                <small *ngIf="gender.errors?.required" class='text-danger'> Gender is required</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label> Location </label>
+              <select class='form-control' formControlName="location">
+                <option *ngFor="let location of locations" [value]=location.name> {{location.name}} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
