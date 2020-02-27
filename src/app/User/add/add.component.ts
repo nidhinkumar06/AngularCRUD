@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {Store} from '@ngrx/store';
+import * as UserActions from '../store/actions/userAction';
 
 @Component({
   selector: 'app-add',
@@ -119,7 +121,7 @@ export class AddComponent implements OnInit {
     mobile : ['', [Validators.required]],
     location : ['']
   });
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store<any>) { }
 
   ngOnInit() {
   }
@@ -133,7 +135,10 @@ export class AddComponent implements OnInit {
     return this.userForm.get('gender');
   }
   onSave() {
-    console.log('vales', this.userForm.value );
+    console.log('values', this.userForm.value );
+    this.store.dispatch(new UserActions.AddUser([this.userForm.value]));
+    this.userForm.reset();
+    this.onBack();
   }
   onBack() {
     this.router.navigate(['/list']);
