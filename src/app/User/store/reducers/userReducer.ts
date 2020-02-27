@@ -7,13 +7,14 @@ const initialState: UserState = {
 export function userReducer(state: UserState = initialState, action: Actions ) {
   switch (action.type) {
     case ActionTypes.FETCH_USERS:
-      return {
+    console.log('Fetch User Actions : ', action);
+    return {
         ...state
       };
     case ActionTypes.ADD_USER:
+      console.log('Add User Actions : ', action);
       return {
-        ...state,
-        users: [...action.payload]
+        users: [...state.users, ...action.payload]
       };
     default:
       return {
