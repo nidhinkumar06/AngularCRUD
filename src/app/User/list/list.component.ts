@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
-
+import {Store, select} from '@ngrx/store';
 
 @Component({
   selector: 'app-list',
@@ -11,7 +10,7 @@ import { Router } from '@angular/router';
 export class ListComponent implements OnInit {
 users = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store<any>) { }
 
   ngOnInit() {
     // this.users.push({
@@ -21,6 +20,12 @@ users = [];
     //   mobile : '1234567890',
     //   location : 'cbe'
     // });
+    this.store.pipe(select('user')).subscribe(
+      value => {
+        console.log('value is : ',value);
+        this.users=value.users;
+      }
+    );
   }
 
   goToAddForm() {

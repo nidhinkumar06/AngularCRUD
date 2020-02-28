@@ -10,6 +10,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {StoreModule} from '@ngrx/store';
+import {userReducer} from './User/store/reducers/userReducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
+
+
 
 @NgModule({
   declarations: [
@@ -24,7 +30,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({
+      user:userReducer
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

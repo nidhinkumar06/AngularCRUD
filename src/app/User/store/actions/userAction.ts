@@ -7,14 +7,11 @@ export enum ActionTypes {
 
 export class FetchUsers implements Action {
   readonly type = ActionTypes.FETCH_USERS;
-
-  constructor(public payload: any) {}
-
 }
+
 export class AddUser implements Action {
   readonly type = ActionTypes.ADD_USER;
-
   constructor(public payload: any) {}
-
 }
+
 export type Actions= FetchUsers | AddUser;
