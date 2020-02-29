@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {Store, select} from '@ngrx/store';
+import * as UserActions from '../store/actions/userAction';
 
 @Component({
   selector: 'app-list',
@@ -35,5 +36,20 @@ peoples = [];
 
   hasUser() {
     return this.peoples.length > 0 ;
+  }
+
+  editClick (id:number) {
+    this.router.navigate(['/edit', id]);
+  }
+
+  deleteClick (id:number) {
+    if(window.confirm("Do you want to delete user ? "))
+    {
+      this.store.dispatch(new UserActions.DeleteUser(id));
+    }
+    else
+    {
+      console.log('pressed cancel');
+    }
   }
 }

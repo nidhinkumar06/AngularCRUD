@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {Store} from '@ngrx/store';
 import * as UserActions from '../store/actions/userAction';
 import {User} from '../user.model';
-import {ToastrService} from 'ngx-toastr';
+import {ActivatedRoute} from '@angular/router';
+import {Store, select} from '@ngrx/store';
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css']
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.css']
 })
-export class AddComponent implements OnInit {
+export class EditComponent implements OnInit {
 
+  
   locations = [
     {
         id: '1',
@@ -123,9 +124,32 @@ export class AddComponent implements OnInit {
     mobile : ['', [Validators.required]],
     location : ['']
   });
-  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store<any>, private toast : ToastrService) { }
+  id : number;
+  filteredUser : User;
+
+  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store<any>, private route :ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.id = params.id;
+    })
+    // the user inside the select is the stores key
+    this.store.pipe(select('users')).subscribe( 
+      value => {
+        const storeUsers = value.users;
+        // when number is passed as params from store it is passed as string
+        //so u shd convert using Number()
+        this.filteredUser = storeUsers.find((storeUser) => storeUser.id === Number(this.id) )
+        this.userForm.patchValue({
+          name : this.filteredUser.name ,
+          age : this.filteredUser.age,
+          gender : this.filteredUser.gender,
+          mobile : this.filteredUser.mobile,
+          location : this.filteredUser.location 
+        })
+      }
+    );
+    console.log('fil user = ', this.filteredUser);
   }
   get name() {
     return this.userForm.get('name');
@@ -139,17 +163,15 @@ export class AddComponent implements OnInit {
   onSave() {
     console.log('values', this.userForm.value );
     const userValue: User = {
-      id : new Date().getTime(),
+      id : Number(this.id),
       ... this.userForm.value
     };
     console.log(userValue);
-    this.store.dispatch(new UserActions.AddUser([userValue]));
-    this.toast.success('User Added ');
+    this.store.dispatch(new UserActions.EditUser(userValue));
     this.userForm.reset();
     this.onBack();
   }
   onBack() {
     this.router.navigate(['/list']);
   }
-
 }

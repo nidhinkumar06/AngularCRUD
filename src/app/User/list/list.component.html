@@ -13,16 +13,21 @@
         <th>Gender</th>
         <th>Mobile Number</th>
         <th>Location</th>
+        <th>Options</th>
       </tr>
     </thead>
       <tbody>
-        <tr *ngFor="let user of peoples, index as i">
+        <tr *ngFor="let user of peoples, index as i" >
           <td>{{i+1}}</td>
           <td>{{user.name}}</td>
           <td>{{user.age}}</td>
           <td>{{user.gender}}</td>
           <td>{{user.mobile}}</td>
           <td>{{user.location}}</td>
+          <td>
+            <button color='primary' (click)= editClick(user.id)>EDIT</button> &nbsp;
+            <button color='primary' (click)= deleteClick(user.id)>DELETE</button>
+          </td>
         </tr>
       </tbody>
   </table>
