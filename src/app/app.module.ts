@@ -16,6 +16,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 
 import * as store from '../app/User/store/store';
+import { EditComponent } from './User/edit/edit.component';
+import {ToastrModule} from 'ngx-toastr';
 
 
 
@@ -23,7 +25,8 @@ import * as store from '../app/User/store/store';
   declarations: [
     AppComponent,
     ListComponent,
-    AddComponent
+    AddComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +39,14 @@ import * as store from '../app/User/store/store';
     //StoreModule.forRoot({
       //user:userReducer
     //}),
+    // The above code is without local storage (no persistance)
     StoreModule.forRoot(store.reducers, {metaReducers: store.metaReducers}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      closeButton: true,
+      progressBar: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
