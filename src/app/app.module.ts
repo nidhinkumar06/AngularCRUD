@@ -15,6 +15,8 @@ import {userReducer} from './User/store/reducers/userReducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 
+import * as store from '../app/User/store/store';
+
 
 
 @NgModule({
@@ -31,9 +33,10 @@ import {environment} from '../environments/environment';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({
-      user:userReducer
-    }),
+    //StoreModule.forRoot({
+      //user:userReducer
+    //}),
+    StoreModule.forRoot(store.reducers, {metaReducers: store.metaReducers}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],

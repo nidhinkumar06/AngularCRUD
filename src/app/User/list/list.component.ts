@@ -8,24 +8,25 @@ import {Store, select} from '@ngrx/store';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-users = [];
+peoples = [];
 
-  constructor(private router: Router, private store: Store<any>) { }
+  constructor(private router: Router, private store: Store<any>) {
+     this.store.pipe(select('users')).subscribe(
+      value => {
+        console.log('value is : ',value);
+        this.peoples=value.users;
+      }
+    );
+   }
 
   ngOnInit() {
-    // this.users.push({
+    // this.peoples.push({
     //   name : 'Smrithi',
     //   age : '21',
     //   gender : 'Female',
     //   mobile : '1234567890',
     //   location : 'cbe'
     // });
-    this.store.pipe(select('user')).subscribe(
-      value => {
-        console.log('value is : ',value);
-        this.users=value.users;
-      }
-    );
   }
 
   goToAddForm() {
@@ -33,6 +34,6 @@ users = [];
   }
 
   hasUser() {
-    return this.users.length > 0 ;
+    return this.peoples.length > 0 ;
   }
 }

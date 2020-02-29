@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {Store} from '@ngrx/store';
 import * as UserActions from '../store/actions/userAction';
+import {User} from '../user.model';
 
 @Component({
   selector: 'app-add',
@@ -136,7 +137,12 @@ export class AddComponent implements OnInit {
   }
   onSave() {
     console.log('values', this.userForm.value );
-    this.store.dispatch(new UserActions.AddUser([this.userForm.value]));
+    const userValue: User = {
+      id : new Date().getTime(),
+      ... this.userForm.value
+    };
+    console.log(userValue);
+    this.store.dispatch(new UserActions.AddUser([userValue]));
     this.userForm.reset();
     this.onBack();
   }
